@@ -1,12 +1,19 @@
 package com.edocent.mausam;
 
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import com.edocent.mausam.utility.ServiceUtility;
 
 import java.util.ArrayList;
 
@@ -15,9 +22,16 @@ import java.util.ArrayList;
  */
 public class MainActivityFragment extends Fragment {
 
+    private static final String TAG = MainActivityFragment.class.getSimpleName();
     ListView forecastListView;
 
     public MainActivityFragment() {
+    }
+
+    @Override
+    public void onCreate(Bundle bundle){
+        super.onCreate(bundle);
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -32,10 +46,45 @@ public class MainActivityFragment extends Fragment {
         forecaseArray.add("Today - Sunny - 88/63");
         forecaseArray.add("Tomorrow - Foggy - 88/63");
 
+        new FetchWeatherTask().execute();
+
         ArrayAdapter<String> forecastAdapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item_forecast,
                 R.id.list_item_forecast_textview, forecaseArray);
         forecastListView.setAdapter(forecastAdapter);
 
         return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menuInflater.inflate(R.menu.forecastmenu, menu);
+        super.onCreateOptionsMenu(menu, menuInflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.refreshId) {
+            Log.v(TAG, "Going to start Async Task ");
+            new FetchWeatherTask().execute();
+            Log.v(TAG, "Done ");
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    class FetchWeatherTask extends AsyncTask<String, Void, String>{
+
+        @Override
+        protected String doInBackground(String[] params) {
+            return ServiceUtility.connect();
+        }
     }
 }
