@@ -10,8 +10,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.edocent.mausam.utility.ServiceUtility;
 
@@ -46,6 +48,13 @@ public class MainActivityFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
         forecastListView = (ListView) view.findViewById(R.id.listview_forecast);
+
+        forecastListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getActivity(), "Item Clicked", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         new FetchWeatherTask().execute(zipCode);
 
