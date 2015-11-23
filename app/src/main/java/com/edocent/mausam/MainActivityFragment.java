@@ -18,6 +18,8 @@ import com.edocent.mausam.utility.ServiceUtility;
 import org.json.JSONException;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -45,15 +47,7 @@ public class MainActivityFragment extends Fragment {
 
         forecastListView = (ListView) view.findViewById(R.id.listview_forecast);
 
-        ArrayList<String> forecaseArray = new ArrayList<>();
-        forecaseArray.add("Today - Sunny - 88/63");
-        forecaseArray.add("Tomorrow - Foggy - 88/63");
-
         new FetchWeatherTask().execute(zipCode);
-
-        ArrayAdapter<String> forecastAdapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item_forecast,
-                R.id.list_item_forecast_textview, forecaseArray);
-        forecastListView.setAdapter(forecastAdapter);
 
         return view;
     }
@@ -104,7 +98,14 @@ public class MainActivityFragment extends Fragment {
 
         @Override
         public void onPostExecute(String[] jsonData){
-
+            Log.v(TAG, "Set the adapter with jsonData");
+            if(jsonData != null){
+                Log.v(TAG, "jsonData size "+jsonData.length);
+                List<String> weekForecast = new ArrayList<String>(Arrays.asList(jsonData));
+                ArrayAdapter<String> forecastAdapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item_forecast,
+                        R.id.list_item_forecast_textview, weekForecast);
+                forecastListView.setAdapter(forecastAdapter);
+            }
         }
     }
 }
