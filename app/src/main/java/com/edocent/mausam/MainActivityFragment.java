@@ -15,6 +15,8 @@ import android.widget.ListView;
 
 import com.edocent.mausam.utility.ServiceUtility;
 
+import org.json.JSONException;
+
 import java.util.ArrayList;
 
 /**
@@ -24,6 +26,7 @@ public class MainActivityFragment extends Fragment {
 
     private static final String TAG = MainActivityFragment.class.getSimpleName();
     ListView forecastListView;
+    String zipCode = "48390";
 
     public MainActivityFragment() {
     }
@@ -46,7 +49,7 @@ public class MainActivityFragment extends Fragment {
         forecaseArray.add("Today - Sunny - 88/63");
         forecaseArray.add("Tomorrow - Foggy - 88/63");
 
-        new FetchWeatherTask().execute();
+        new FetchWeatherTask().execute(zipCode);
 
         ArrayAdapter<String> forecastAdapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item_forecast,
                 R.id.list_item_forecast_textview, forecaseArray);
@@ -72,7 +75,7 @@ public class MainActivityFragment extends Fragment {
         //noinspection SimplifiableIfStatement
         if (id == R.id.refreshId) {
             Log.v(TAG, "Going to start Async Task ");
-            new FetchWeatherTask().execute();
+            new FetchWeatherTask().execute(zipCode);
             Log.v(TAG, "Done ");
             return true;
         }
@@ -80,11 +83,28 @@ public class MainActivityFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-    class FetchWeatherTask extends AsyncTask<String, Void, String>{
+    class FetchWeatherTask extends AsyncTask<String, Void, String[]>{
 
         @Override
-        protected String doInBackground(String[] params) {
-            return ServiceUtility.connect();
+        protected String[] doInBackground(String[] params) {
+            String zipCode = params[0];
+            String jsonResponse = "";
+            String[] weatherData = new String[]{""};
+
+            jsonResponse = ServiceUtility.connect(zipCode);
+
+            try {
+                weatherData = ServiceUtility.getWeatherDataFromJson(jsonResponse);
+            } catch (JSONException e) {
+                Log.e(TAG, e.getMessage());
+            }
+
+            return weatherData;
+        }
+
+        @Override
+        public void onPostExecute(String[] jsonData){
+
         }
     }
 }
