@@ -1,5 +1,6 @@
 package com.edocent.mausam;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -9,7 +10,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MainActivityFragment.DetailActivityInterface{
+
+    public static final String INTENT_EXTRA = "forecast";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,5 +51,12 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void displayDetails(String forecast) {
+        Intent intent = new Intent(this, DetailActivity.class);
+        intent.putExtra(INTENT_EXTRA, forecast);
+        startActivity(intent);
     }
 }

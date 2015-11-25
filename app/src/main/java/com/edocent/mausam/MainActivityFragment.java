@@ -1,5 +1,6 @@
 package com.edocent.mausam;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -31,6 +32,8 @@ public class MainActivityFragment extends Fragment {
     private static final String TAG = MainActivityFragment.class.getSimpleName();
     ListView forecastListView;
     String zipCode = "48390";
+    DetailActivityInterface mDetailActivityInterface;
+    List<String> weekForecast;
 
     public MainActivityFragment() {
     }
@@ -52,7 +55,14 @@ public class MainActivityFragment extends Fragment {
         forecastListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getActivity(), "Item Clicked", Toast.LENGTH_SHORT).show();
+                if(mDetailActivityInterface != null){
+                    String forecast = "";
+                    if(weekForecast != null){
+                        forecast = weekForecast.get(position);
+                    }
+                    mDetailActivityInterface.displayDetails(forecast);
+                }
+
             }
         });
 
@@ -110,11 +120,23 @@ public class MainActivityFragment extends Fragment {
             Log.v(TAG, "Set the adapter with jsonData");
             if(jsonData != null){
                 Log.v(TAG, "jsonData size "+jsonData.length);
-                List<String> weekForecast = new ArrayList<String>(Arrays.asList(jsonData));
+                if(weekForecast == null) {
+                    weekForecast = new ArrayList<String>(Arrays.asList(jsonData));
+                }
                 ArrayAdapter<String> forecastAdapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item_forecast,
                         R.id.list_item_forecast_textview, weekForecast);
                 forecastListView.setAdapter(forecastAdapter);
             }
         }
+    }
+
+    @Override
+    public void onAttach(Activity activity){
+        super.onAttach(activity);
+        mDetailActivityInterface = (DetailActivityInterface) activity;
+    }
+
+    public interface DetailActivityInterface{
+        void displayDetails(String forecast);
     }
 }
