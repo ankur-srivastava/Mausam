@@ -29,6 +29,14 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
                         .setAction("Action", null).show();
             }
         });
+
+        /*Listener added as per Android Documentation*/
+        SharedPreferences.OnSharedPreferenceChangeListener listener =
+                new SharedPreferences.OnSharedPreferenceChangeListener() {
+                    public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
+                        // listener implementation
+                    }
+                };
     }
 
     @Override
@@ -60,5 +68,24 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
         Intent intent = new Intent(this, DetailActivity.class);
         intent.putExtra(INTENT_EXTRA, forecast);
         startActivity(intent);
+    }
+
+    /*
+    To take care of Preferences
+    http://developer.android.com/guide/topics/ui/settings.html
+    To be used when a Listener has been defined
+    This Listener will help fetch the data using the new zip code and metric selection
+    */
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        getPreferenceScreen().getSharedPreferences()
+                .unregisterOnSharedPreferenceChangeListener(this);
     }
 }
