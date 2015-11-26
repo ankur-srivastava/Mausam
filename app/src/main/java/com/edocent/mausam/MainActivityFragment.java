@@ -41,7 +41,7 @@ public class MainActivityFragment extends Fragment {
     @Override
     public void onCreate(Bundle bundle){
         super.onCreate(bundle);
-        setHasOptionsMenu(true);
+        //setHasOptionsMenu(true);
     }
 
     @Override
@@ -74,7 +74,7 @@ public class MainActivityFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.forecastmenu, menu);
+        menuInflater.inflate(R.menu.main, menu);
         super.onCreateOptionsMenu(menu, menuInflater);
     }
 
