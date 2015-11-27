@@ -2,8 +2,10 @@ package com.edocent.mausam;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -14,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.edocent.mausam.utility.ServiceUtility;
 
@@ -30,8 +31,9 @@ import java.util.List;
 public class MainActivityFragment extends Fragment {
 
     private static final String TAG = MainActivityFragment.class.getSimpleName();
+    public static String LOCATION_PREF;
+    public static final String DEFAULT_LOCATION = "48390";
     ListView forecastListView;
-    String zipCode = "48390";
     DetailActivityInterface mDetailActivityInterface;
     List<String> weekForecast;
 
@@ -50,6 +52,13 @@ public class MainActivityFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+        if(sharedPref != null) {
+            LOCATION_PREF = sharedPref.getString(getString(R.string.pref_location_key), DEFAULT_LOCATION);
+            Log.v(TAG, "Got Location Preference as "+LOCATION_PREF);
+        }
+
         forecastListView = (ListView) view.findViewById(R.id.listview_forecast);
 
         forecastListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -66,7 +75,7 @@ public class MainActivityFragment extends Fragment {
             }
         });
 
-        new FetchWeatherTask().execute(zipCode);
+        new FetchWeatherTask().execute(LOCATION_PREF);
 
         return view;
     }
@@ -88,7 +97,7 @@ public class MainActivityFragment extends Fragment {
         //noinspection SimplifiableIfStatement
         if (id == R.id.refreshId) {
             Log.v(TAG, "Going to start Async Task ");
-            new FetchWeatherTask().execute(zipCode);
+            new FetchWeatherTask().execute(LOCATION_PREF);
             Log.v(TAG, "Done ");
             return true;
         }
