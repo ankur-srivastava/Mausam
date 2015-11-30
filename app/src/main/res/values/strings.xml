@@ -19,19 +19,18 @@
     <string name="pref_default_display_name">John Smith</string>
     <string name="pref_location_label">Location</string>
     <string name="pref_location_key">LocationKey</string>
+    <string name="pref_temp_key">TemperatureKey</string>
     <string name="pref_location_default">48390</string>
 
 
-    <string name="pref_title_add_friends_to_messages">Add friends to messages</string>
-    <string-array name="pref_example_list_titles">
-        <item>Always</item>
-        <item>When possible</item>
-        <item>Never</item>
+    <string name="pref_title_temp">Temperature Preference</string>
+    <string-array name="temp_list_titles">
+        <item>Metric</item>
+        <item>Imperial</item>
     </string-array>
-    <string-array name="pref_example_list_values">
-        <item>1</item>
-        <item>0</item>
-        <item>-1</item>
+    <string-array name="temp_example_list_values">
+        <item>metric</item>
+        <item>imperial</item>
     </string-array>
 
     <!-- Example settings for Data & Sync -->

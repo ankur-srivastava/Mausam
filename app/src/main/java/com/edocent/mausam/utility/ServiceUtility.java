@@ -24,10 +24,9 @@ public class ServiceUtility {
     static final String BASE_URL = "http://api.openweathermap.org/data/2.5/forecast/daily";
     private static final String TAG = "ServiceUtility";
     private static final String FORMAT = "json";
-    private static final String UNITS = "metric";
     private static final int DAYS = 7;
 
-    public static String connect(String zipCode) {
+    public static String connect(String zipCode, String tempPref) {
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
 
@@ -44,7 +43,7 @@ public class ServiceUtility {
             Uri uri = Uri.parse(BASE_URL).buildUpon().
                     appendQueryParameter(QUERY_PARAM, zipCode).
                     appendQueryParameter(RESPONSE_MODE_PARAM, FORMAT).
-                    appendQueryParameter(METRICS_PARAM, UNITS).
+                    appendQueryParameter(METRICS_PARAM, tempPref).
                     appendQueryParameter(COUNT_PARAM, String.valueOf(DAYS)).
                     appendQueryParameter(APP_ID_PARAM, APP_ID_VALUE).
                     build();

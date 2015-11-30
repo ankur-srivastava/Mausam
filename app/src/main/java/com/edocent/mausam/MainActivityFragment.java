@@ -32,7 +32,9 @@ public class MainActivityFragment extends Fragment {
 
     private static final String TAG = MainActivityFragment.class.getSimpleName();
     public static String LOCATION_PREF;
+    public static String TEMP_PREF;
     public static final String DEFAULT_LOCATION = "48390";
+    public static final String DEFAULT_TEMP = "metric";
     ListView forecastListView;
     DetailActivityInterface mDetailActivityInterface;
     List<String> weekForecast;
@@ -102,10 +104,11 @@ public class MainActivityFragment extends Fragment {
         @Override
         protected String[] doInBackground(String[] params) {
             String zipCode = params[0];
+            String tempPref = params[1];
             String jsonResponse = "";
             String[] weatherData = new String[]{""};
 
-            jsonResponse = ServiceUtility.connect(zipCode);
+            jsonResponse = ServiceUtility.connect(zipCode, tempPref);
 
             try {
                 weatherData = ServiceUtility.getWeatherDataFromJson(jsonResponse);
@@ -148,13 +151,13 @@ public class MainActivityFragment extends Fragment {
 
         if(sharedPref != null) {
             LOCATION_PREF = sharedPref.getString(getString(R.string.pref_location_key), DEFAULT_LOCATION);
-            Log.v(TAG, "Got Location Preference as "+LOCATION_PREF);
+            TEMP_PREF = sharedPref.getString(getString(R.string.pref_temp_key), DEFAULT_TEMP);
         }
         updateWeather();
     }
 
     private void updateWeather() {
-
-        new FetchWeatherTask().execute(LOCATION_PREF);
+        Log.v(TAG, "Service call using "+LOCATION_PREF+" and "+TEMP_PREF);
+        new FetchWeatherTask().execute(LOCATION_PREF, TEMP_PREF);
     }
 }
