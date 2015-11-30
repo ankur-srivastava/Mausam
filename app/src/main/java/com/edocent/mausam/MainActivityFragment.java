@@ -52,21 +52,14 @@ public class MainActivityFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
-
-        if(sharedPref != null) {
-            LOCATION_PREF = sharedPref.getString(getString(R.string.pref_location_key), DEFAULT_LOCATION);
-            Log.v(TAG, "Got Location Preference as "+LOCATION_PREF);
-        }
-
         forecastListView = (ListView) view.findViewById(R.id.listview_forecast);
 
         forecastListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(mDetailActivityInterface != null){
+                if (mDetailActivityInterface != null) {
                     String forecast = "";
-                    if(weekForecast != null){
+                    if (weekForecast != null) {
                         forecast = weekForecast.get(position);
                     }
                     mDetailActivityInterface.displayDetails(forecast);
@@ -75,7 +68,6 @@ public class MainActivityFragment extends Fragment {
             }
         });
 
-        new FetchWeatherTask().execute(LOCATION_PREF);
 
         return view;
     }
@@ -147,5 +139,22 @@ public class MainActivityFragment extends Fragment {
 
     public interface DetailActivityInterface{
         void displayDetails(String forecast);
+    }
+
+    @Override
+    public void onStart(){
+        super.onStart();
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+        if(sharedPref != null) {
+            LOCATION_PREF = sharedPref.getString(getString(R.string.pref_location_key), DEFAULT_LOCATION);
+            Log.v(TAG, "Got Location Preference as "+LOCATION_PREF);
+        }
+        updateWeather();
+    }
+
+    private void updateWeather() {
+
+        new FetchWeatherTask().execute(LOCATION_PREF);
     }
 }
