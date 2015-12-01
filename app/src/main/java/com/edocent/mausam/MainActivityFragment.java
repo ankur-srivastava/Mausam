@@ -2,7 +2,9 @@ package com.edocent.mausam;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -92,6 +94,19 @@ public class MainActivityFragment extends Fragment {
         if (id == R.id.refreshId) {
             Log.v(TAG, "Going to start Async Task ");
             new FetchWeatherTask().execute(LOCATION_PREF);
+            Log.v(TAG, "Done ");
+            return true;
+        } else if (id == R.id.locationId) {
+            Log.v(TAG, "Going to start Google Map Intent ");
+
+            Uri geoLocation = Uri.parse("geo:0,0?").buildUpon()
+                    .appendQueryParameter("q", LOCATION_PREF).build();
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(geoLocation);
+            if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+                startActivity(intent);
+            }
+
             Log.v(TAG, "Done ");
             return true;
         }

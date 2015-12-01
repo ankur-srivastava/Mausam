@@ -2,6 +2,7 @@ package com.edocent.mausam;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
@@ -61,6 +62,25 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
         if (id == R.id.action_settings) {
             Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
+            return true;
+        }else if (id == R.id.locationId) {
+            Log.v(TAG, "Going to start Google Map Intent ");
+            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+
+            if(sharedPref != null) {
+                MainActivityFragment.LOCATION_PREF = sharedPref.getString(getString(R.string.pref_location_key), MainActivityFragment.DEFAULT_LOCATION);
+                MainActivityFragment.TEMP_PREF = sharedPref.getString(getString(R.string.pref_temp_key), MainActivityFragment.DEFAULT_TEMP);
+            }
+
+            Uri geoLocation = Uri.parse("geo:0,0?").buildUpon()
+                    .appendQueryParameter("q", MainActivityFragment.LOCATION_PREF).build();
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(geoLocation);
+            if (intent.resolveActivity(getPackageManager()) != null) {
+                startActivity(intent);
+            }
+
+            Log.v(TAG, "Done ");
             return true;
         }
 
