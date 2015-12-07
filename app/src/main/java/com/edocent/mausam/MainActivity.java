@@ -30,41 +30,26 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
             }
         });
-
-        /*Listener added as per Android Documentation*/
-        SharedPreferences.OnSharedPreferenceChangeListener listener =
-                new SharedPreferences.OnSharedPreferenceChangeListener() {
-                    public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
-                        // listener implementation
-                    }
-                };
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
             return true;
         }else if (id == R.id.locationId) {
-            Log.v(TAG, "Going to start Google Map Intent ");
             SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 
             if(sharedPref != null) {
@@ -80,7 +65,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
                 startActivity(intent);
             }
 
-            Log.v(TAG, "Done ");
             return true;
         }
 
@@ -94,12 +78,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
         startActivity(intent);
     }
 
-    /*
-    To take care of Preferences
-    http://developer.android.com/guide/topics/ui/settings.html
-    To be used when a Listener has been defined
-    This Listener will help fetch the data using the new zip code and metric selection
-    */
     @Override
     protected void onResume() {
         super.onResume();
