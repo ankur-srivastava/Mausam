@@ -191,9 +191,6 @@ public class ServiceUtility {
             resultStrs[i] = day + " - " + description + " - " + highAndLow;
         }
 
-        for (String s : resultStrs) {
-            Log.v(TAG, "Forecast entry: " + s);
-        }
         return resultStrs;
     }
 }
