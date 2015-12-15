@@ -92,12 +92,12 @@ public class MainActivityFragment extends Fragment {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.refreshId) {
-            Log.v(TAG, "Going to start Async Task ");
+            //Log.v(TAG, "Going to start Async Task ");
             new FetchWeatherTask().execute(LOCATION_PREF);
-            Log.v(TAG, "Done ");
+            //Log.v(TAG, "Done ");
             return true;
         } else if (id == R.id.locationId) {
-            Log.v(TAG, "Going to start Google Map Intent ");
+            //Log.v(TAG, "Going to start Google Map Intent ");
 
             Uri geoLocation = Uri.parse("geo:0,0?").buildUpon()
                     .appendQueryParameter("q", LOCATION_PREF).build();
@@ -107,7 +107,7 @@ public class MainActivityFragment extends Fragment {
                 startActivity(intent);
             }
 
-            Log.v(TAG, "Done ");
+            //Log.v(TAG, "Done ");
             return true;
         }
 
@@ -136,9 +136,9 @@ public class MainActivityFragment extends Fragment {
 
         @Override
         public void onPostExecute(String[] jsonData){
-            Log.v(TAG, "Set the adapter with jsonData");
+            //Log.v(TAG, "Set the adapter with jsonData");
             if(jsonData != null){
-                Log.v(TAG, "jsonData size "+jsonData.length);
+                //Log.v(TAG, "jsonData size "+jsonData.length);
                 if(weekForecast == null) {
                     weekForecast = new ArrayList<String>(Arrays.asList(jsonData));
                 }
@@ -172,7 +172,7 @@ public class MainActivityFragment extends Fragment {
     }
 
     private void updateWeather() {
-        Log.v(TAG, "Service call using "+LOCATION_PREF+" and "+TEMP_PREF);
+        //Log.v(TAG, "Service call using "+LOCATION_PREF+" and "+TEMP_PREF);
         new FetchWeatherTask().execute(LOCATION_PREF, TEMP_PREF);
     }
 }

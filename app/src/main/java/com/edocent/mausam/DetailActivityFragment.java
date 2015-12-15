@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.ShareActionProvider;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,6 +19,7 @@ import android.widget.TextView;
  */
 public class DetailActivityFragment extends Fragment {
 
+    private static final String TAG = "DetailActivityFragment";
     TextView forecastTextView;
     public static final String FORECAST_HASHTAG = "#Mausam";
     String forecastString;
@@ -64,6 +66,7 @@ public class DetailActivityFragment extends Fragment {
             startActivity(intent);
             return true;
         } else if (id == R.id.shareId) {
+            Log.v(TAG, "Going to call Share Activity Intent");
             ShareActionProvider shareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
             if(shareActionProvider != null){
                 shareActionProvider.setShareIntent(createSharedIntent());
