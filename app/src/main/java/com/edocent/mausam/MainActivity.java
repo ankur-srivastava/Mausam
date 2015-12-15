@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.v(TAG, "In OnCreate");
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -81,10 +82,30 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
     @Override
     protected void onResume() {
         super.onResume();
+        Log.v(TAG, "In OnResume");
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        Log.v(TAG, "In OnPause");
+    }
+
+    @Override
+    protected void onStart(){
+        super.onStart();
+        Log.v(TAG, "In OnStart");
+    }
+
+    @Override
+    protected void onStop(){
+        super.onStop();
+        Log.v(TAG, "In OnStop");
+    }
+
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        Log.v(TAG, "In OnDestroy");
     }
 }
