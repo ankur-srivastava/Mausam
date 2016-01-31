@@ -38,7 +38,7 @@ public class ServiceUtility {
             final String METRICS_PARAM = "units";
             final String COUNT_PARAM = "cnt";
             final String APP_ID_PARAM = "appid";
-            final String APP_ID_VALUE = "2de143494c0b295cca9337e1e96b00e0";
+            final String APP_ID_VALUE = "309345943a1b2f1a9591a6ff58acaba9";
 
             Uri uri = Uri.parse(BASE_URL).buildUpon().
                     appendQueryParameter(QUERY_PARAM, zipCode).
